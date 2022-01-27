@@ -1,7 +1,6 @@
-# How to run the application?
+# How to run the server?
 
-- Clone the repository
-- Navigate to its root folder
+- Navigate to the backend folder
 - Add the environment file\
   - Duplicate `.env.sample` file
   - Rename it to `.env`
