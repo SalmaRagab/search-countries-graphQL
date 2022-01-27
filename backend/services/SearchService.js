@@ -1,7 +1,7 @@
-const axios = require('axios');
+const axios = require("axios");
+const config = process.env;
 
 module.exports = class SearchService {
-
   async search(countryName) {
     const endpoint = this.constructSearchEndpoint(countryName);
     try {
@@ -13,6 +13,6 @@ module.exports = class SearchService {
   }
 
   constructSearchEndpoint(countryName) {
-    return `${process.env.REST_COUNTRIES_SEARCH_BY_NAME_ENDPOINT}/${countryName}?fields=${process.env.DEFAULT_FIELDS_TO_RETRIEVE}`
+    return `${config.REST_COUNTRIES_SEARCH_BY_NAME_ENDPOINT}/${countryName}?fields=${config.DEFAULT_FIELDS_TO_RETRIEVE}`;
   }
-}
+};
