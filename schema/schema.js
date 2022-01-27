@@ -24,12 +24,15 @@ const Country = new GraphQLObjectType({
 })
 
 const RootQuery = new GraphQLObjectType({
-    name: 'RootQueryType',
+    name: 'SearchByNameQueryType',
     fields: {
         countries: {
+            args: {
+                countryName: { type: GraphQLString }
+            },
             type: GraphQLList(Country),
             resolve(parent, args){
-                const result = searchService.search();
+                const result = searchService.search(args.countryName);
                 return result;
             }
         }
