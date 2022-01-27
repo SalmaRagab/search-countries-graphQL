@@ -1,7 +1,7 @@
 # How to run the server?
 
 - Navigate to the backend folder
-- Add the environment file\
+- Add the environment file
   - Duplicate `.env.sample` file
   - Rename it to `.env`
   - Add the actual `API_KEY` and save
