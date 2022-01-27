@@ -7,4 +7,4 @@
   - Add the actual `API_KEY` and save
 - Install the packages using `npm install`
 - After the installation is finished, run the server using `npm start`
-- The server runs by default on port **3000**
+- The server runs by default on port **3005**
