@@ -8,3 +8,10 @@
 - Install the packages using `npm install`
 - After the installation is finished, run the server using `npm start`
 - The server runs by default on port **3005**
+
+# How to run the client?
+
+- Navigate to the frontend folder
+- Install the packages using `npm install`
+- After the installation is finished, run the server using `npm start`
+- The client runs by default on port **3000**
