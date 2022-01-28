@@ -1,13 +1,19 @@
 import "./App.css";
-// import CountriesListing from "./components/CountriesListing";
+import CountriesListing from "./components/CountriesListing/CountriesListing";
 import { Login } from "./components/Login/Login";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 function App() {
   return (
-    <div className="App">
-      {/* <CountriesListing /> */}
-      <Login />
-    </div>
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/countries" element={<CountriesListing />} />
+          <Route path="/" element={<Login />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
