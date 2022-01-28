@@ -15,7 +15,7 @@ export default function CountriesListing() {
   const [disableAmountField, setDisableAmountField] = useState(true);
 
   useEffect(() => {
-    if (countries === undefined || countries.length == 0) {
+    if (countries === undefined || countries.length === 0) {
       setDisableAmountField(true);
     }
   }, [countries]);
