@@ -9,6 +9,11 @@
 .button {
   margin: 5px !important;
 }
+.currencyExchangeRate {
+  padding: 1px;
+  color: #d5822b;
+  font-weight: bold;
+}
 .amount-coversion {
   padding: 1px;
   color: #2d7410;

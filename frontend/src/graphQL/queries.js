@@ -6,6 +6,7 @@ export const GET_COUNTRIES = gql`
       name
       population
       currencies {
+        code
         name
         symbol
         exchangeRateWithSEK

@@ -90,15 +90,20 @@ export default function CountriesListing() {
                     {country.currencies.map((currency, currencyIndex) => {
                       return (
                         <p key="currencyIndex">
-                          {currency.name} ({currency.symbol})
-                          <br />1 {currency.name} ={" "}
-                          {currency.exchangeRateWithSEK} SEK
+                          {currency.name} ({currency.symbol}) - {currency.code}
+                          <br />
+                          <span className="currencyExchangeRate">
+                            1 {currency.code} ={" "}
+                            {currency.exchangeRateWithSEK.toFixed(3)} SEK
+                          </span>
                           <br />
                           {amount > 0 && (
                             <span className="amount-coversion">
                               {amount} SEK ={" "}
-                              {amount / currency.exchangeRateWithSEK}{" "}
-                              {currency.name}
+                              {(amount / currency.exchangeRateWithSEK).toFixed(
+                                3
+                              )}{" "}
+                              {currency.code}
                             </span>
                           )}
                         </p>
