@@ -1,5 +1,7 @@
 const graphql = require("graphql");
+const CurrencyService = require("../services/CurrencyService");
 const SearchService = require("../services/SearchService");
+const CurrencyExchangeRateMapper = require("../mappers/CurrencyExchangeRateMapper");
 
 const {
   GraphQLObjectType,
@@ -7,9 +9,12 @@ const {
   GraphQLFloat,
   GraphQLList,
   GraphQLSchema,
+  GraphQLInt,
 } = graphql;
 
 const searchService = new SearchService();
+const currencyService = new CurrencyService();
+const currencyExchangeRateMapper = new CurrencyExchangeRateMapper();
 
 const Currency = new GraphQLObjectType({
   name: "CurrencyItemType",
@@ -17,6 +22,7 @@ const Currency = new GraphQLObjectType({
     code: { type: GraphQLString },
     name: { type: GraphQLString },
     symbol: { type: GraphQLString },
+    exchangeRateWithSEK: { type: GraphQLFloat },
   }),
 });
 
@@ -37,9 +43,22 @@ const RootQuery = new GraphQLObjectType({
         countryName: { type: GraphQLString },
       },
       type: GraphQLList(Country),
-      resolve(parent, args) {
-        const result = searchService.search(args.countryName);
-        return result;
+      async resolve(parent, args) {
+        const countries = await searchService.search(args.countryName);
+        if (countries) {
+          let currenciesCodesSet = countries.map((country) =>
+            country.currencies.map((currency) => currency.code)
+          );
+          await currencyService.getCurrencyExchangeRate(currenciesCodesSet);
+          const result =
+            currencyExchangeRateMapper.mapExchangeRateToDefaultCurrency(
+              countries,
+              currencyExchangeRates
+            );
+          return result;
+        } else {
+          return [];
+        }
       },
     },
   },
