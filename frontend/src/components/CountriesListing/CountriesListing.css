@@ -2,10 +2,15 @@
   display: inline-flex;
   padding: 5px;
 }
-.search-input {
+.text-input {
   width: auto !important;
   margin: 5px;
 }
-.search-button {
+.button {
   margin: 5px !important;
+}
+.amount-coversion {
+  padding: 1px;
+  color: #2d7410;
+  font-weight: bold;
 }

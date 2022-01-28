@@ -1,8 +1,9 @@
 import { Button, Form, Table } from "react-bootstrap";
-import { useState } from "react";
-import { gql, useApolloClient } from "@apollo/client";
+import { useState, useEffect } from "react";
+import { useApolloClient } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
 import "./CountriesListing.css";
+import { GET_COUNTRIES } from "../../graphQL/queries";
 
 export default function CountriesListing() {
   const client = useApolloClient();
@@ -10,20 +11,21 @@ export default function CountriesListing() {
 
   const [countryName, setCountryName] = useState("");
   const [countries, setCountries] = useState();
+  const [amount, setAmount] = useState("");
+  const [disableAmountField, setDisableAmountField] = useState(true);
 
-  const GET_COUNTRIES = gql`
-    query GetCountries($countryName: String!) {
-      countries(countryName: $countryName) {
-        name
-        population
-        currencies {
-          name
-          symbol
-          exchangeRateWithSEK
-        }
-      }
+  useEffect(() => {
+    if (countries === undefined || countries.length == 0) {
+      setDisableAmountField(true);
     }
-  `;
+  }, [countries]);
+
+  function reset() {
+    setCountryName("");
+    setCountries([]);
+    setAmount("");
+    setDisableAmountField(true);
+  }
 
   async function searchCountries() {
     if (countryName.trim() !== "") {
@@ -35,6 +37,7 @@ export default function CountriesListing() {
           query: GET_COUNTRIES,
           variables: { countryName },
         });
+        setDisableAmountField(false);
         setCountries(data.countries);
       } catch (error) {
         alert("You need to login first!");
@@ -48,19 +51,27 @@ export default function CountriesListing() {
       <div className="search">
         <Form.Control
           value={countryName}
-          className="search-input"
+          className="text-input"
           placeholder="Country name"
           onChange={(event) => setCountryName(event.target.value)}
         />
-        <Button
-          className="search-button"
-          variant="primary"
-          onClick={searchCountries}
-        >
+        <Button className="button" variant="primary" onClick={searchCountries}>
           Search
         </Button>
       </div>
-      {countries ? (
+      <div className="search">
+        <Form.Control
+          disabled={disableAmountField}
+          value={amount}
+          className="text-input"
+          placeholder="Amount in SEK"
+          onChange={(event) => setAmount(event.target.value)}
+        />
+      </div>
+      <Button className="button" variant="danger" onClick={reset}>
+        RESET
+      </Button>
+      {countries && countries.length > 0 ? (
         <Table striped bordered hover>
           <thead>
             <tr>
@@ -82,6 +93,14 @@ export default function CountriesListing() {
                           {currency.name} ({currency.symbol})
                           <br />1 {currency.name} ={" "}
                           {currency.exchangeRateWithSEK} SEK
+                          <br />
+                          {amount > 0 && (
+                            <span className="amount-coversion">
+                              {amount} SEK ={" "}
+                              {amount / currency.exchangeRateWithSEK}{" "}
+                              {currency.name}
+                            </span>
+                          )}
                         </p>
                       );
                     })}
