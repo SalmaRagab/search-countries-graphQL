@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const { graphqlHTTP } = require("express-graphql");
 const bodyParser = require("body-parser");
 
@@ -12,6 +13,13 @@ const app = express();
 app.use(bodyParser.json());
 
 const loginService = new LoginService();
+
+var corsOptions = {
+  origin: "http://localhost:3000",
+  optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
 
 app.use(
   "/graphql",
