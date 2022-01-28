@@ -5,9 +5,10 @@
   - Duplicate `.env.sample` file
   - Rename it to `.env`
   - Add the actual `API_KEY` and save
+  - Add a port if you need this to run on a port different than the default one
+    - The default port is **3005**
 - Install the packages using `npm install`
 - After the installation is finished, run the server using `npm start`
-- The server runs by default on port **3005**
 
 # How to run the client?
 
