@@ -9,6 +9,8 @@ const LoginService = require("./services/LoginService.js");
 
 require("dotenv").config();
 
+const PORT = process.env.PORT || 3005;
+
 const app = express();
 app.use(bodyParser.json());
 
@@ -36,6 +38,6 @@ app.post("/login", (req, res) => {
   res.status(200).json(user);
 });
 
-app.listen(3005, () => {
-  console.log("Server started on port 3005");
+app.listen(PORT, () => {
+  console.log(`Server started on port ${PORT}`);
 });

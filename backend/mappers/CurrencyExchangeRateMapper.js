@@ -8,7 +8,7 @@ module.exports = class CurrencyExchangeRateMapper {
   mapExchangeRateToDefaultCurrency(
     countries,
     currencies,
-    defaultCurrency = process.env.DEFAULT_MAP_CURRENCY
+    defaultCurrency = process.env.DEFAULT_CURRENCY
   ) {
     const defaultCurrencyValue = currencies.rates[defaultCurrency];
     countries.forEach((country) => {

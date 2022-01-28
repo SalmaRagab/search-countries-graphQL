@@ -16,7 +16,7 @@ module.exports = class CurrencyService {
     const constantURLPart = `${config.FIXER_API_GET_LATEST_CURRENCY_CHANGE}?access_key=${config.FIXER_API_KEY}&base=${config.FIXER_BASE_CURRENCY}`;
     const url =
       constantURLPart +
-      `&symbols=${currencyNames.join(",")},${config.DEFAULT_MAP_CURRENCY}`;
+      `&symbols=${currencyNames.join(",")},${config.DEFAULT_CURRENCY}`;
     return url;
   }
 };
