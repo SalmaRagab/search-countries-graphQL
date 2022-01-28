@@ -1,0 +1,11 @@
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.username-text-input {
+  width: 20% !important;
+  margin: auto !important;
+  display: block !important;
+  margin-bottom: 5px !important;
+}

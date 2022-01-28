@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { constructAPIURL } from "../../apiUrl";
+import "./Login.css";
 
 export function Login() {
   let navigate = useNavigate();
@@ -29,9 +30,10 @@ export function Login() {
 
   return (
     <Form onSubmit={login}>
-      <Form.Group className="mb-3" controlId="userName">
+      <Form.Group className="login-form" controlId="userName">
         <Form.Label>User Name</Form.Label>
         <Form.Control
+          className="username-text-input"
           value={userName}
           placeholder="Enter User Name"
           onChange={(e) => setUserName(e.target.value)}
