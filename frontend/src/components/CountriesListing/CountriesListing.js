@@ -1,44 +1,37 @@
 import { Button, Form, Table } from "react-bootstrap";
 import { useState } from "react";
+import { gql, useApolloClient } from "@apollo/client";
 import "./CountriesListing.css";
 
 export default function CountriesListing() {
-  let countries = [
-    {
-      name: "Egypt",
-      population: 102334403,
-      currencies: [
-        {
-          name: "Egyptian pound",
-          symbol: "£",
-        },
-        {
-          name: "Euro",
-          symbol: "€",
-        },
-      ],
-    },
-    {
-      name: "Germany",
-      population: 83240525,
-      currencies: [
-        {
-          name: "Euro",
-          symbol: "€",
-        },
-      ],
-    },
-  ];
-
   const [countryName, setCountryName] = useState("");
+  const [countries, setCountries] = useState();
+  const client = useApolloClient();
 
-  function search() {
+  const GET_COUNTRIES = gql`
+    query GetCountries($countryName: String!) {
+      countries(countryName: $countryName) {
+        name
+        population
+        currencies {
+          name
+          symbol
+          exchangeRateWithSEK
+        }
+      }
+    }
+  `;
+
+  async function searchCountries() {
     if (countryName.trim() !== "") {
       console.log(
         `calling the search endpoint, with country name: ${countryName}`
       );
-      // call endpoint
-      setCountryName("");
+      const { data } = await client.query({
+        query: GET_COUNTRIES,
+        variables: { countryName },
+      });
+      setCountries(data.countries);
     }
   }
 
@@ -51,7 +44,11 @@ export default function CountriesListing() {
           placeholder="Country name"
           onChange={(event) => setCountryName(event.target.value)}
         />
-        <Button className="search-button" variant="primary" onClick={search}>
+        <Button
+          className="search-button"
+          variant="primary"
+          onClick={searchCountries}
+        >
           Search
         </Button>
       </div>
@@ -73,9 +70,11 @@ export default function CountriesListing() {
                   <td>
                     {country.currencies.map((currency, currencyIndex) => {
                       return (
-                        <li key="currencyIndex">
-                          {currency.name}({currency.symbol})
-                        </li>
+                        <p key="currencyIndex">
+                          {currency.name} ({currency.symbol})
+                          <br />1 {currency.name} ={" "}
+                          {currency.exchangeRateWithSEK} SEK
+                        </p>
                       );
                     })}
                   </td>
