@@ -1,12 +1,15 @@
 import { Button, Form, Table } from "react-bootstrap";
 import { useState } from "react";
 import { gql, useApolloClient } from "@apollo/client";
+import { useNavigate } from "react-router-dom";
 import "./CountriesListing.css";
 
 export default function CountriesListing() {
+  const client = useApolloClient();
+  let navigate = useNavigate();
+
   const [countryName, setCountryName] = useState("");
   const [countries, setCountries] = useState();
-  const client = useApolloClient();
 
   const GET_COUNTRIES = gql`
     query GetCountries($countryName: String!) {
@@ -27,11 +30,16 @@ export default function CountriesListing() {
       console.log(
         `calling the search endpoint, with country name: ${countryName}`
       );
-      const { data } = await client.query({
-        query: GET_COUNTRIES,
-        variables: { countryName },
-      });
-      setCountries(data.countries);
+      try {
+        const { data } = await client.query({
+          query: GET_COUNTRIES,
+          variables: { countryName },
+        });
+        setCountries(data.countries);
+      } catch (error) {
+        alert("You need to login first!");
+        navigate("../login", { replace: true });
+      }
     }
   }
 
