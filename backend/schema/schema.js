@@ -49,7 +49,8 @@ const RootQuery = new GraphQLObjectType({
           let currenciesCodesSet = countries.map((country) =>
             country.currencies.map((currency) => currency.code)
           );
-          await currencyService.getCurrencyExchangeRate(currenciesCodesSet);
+          const currencyExchangeRates =
+            await currencyService.getCurrencyExchangeRate(currenciesCodesSet);
           const result =
             currencyExchangeRateMapper.mapExchangeRateToDefaultCurrency(
               countries,
