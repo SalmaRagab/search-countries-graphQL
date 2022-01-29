@@ -55,7 +55,12 @@ export default function CountriesListing() {
           placeholder="Country name"
           onChange={(event) => setCountryName(event.target.value)}
         />
-        <Button className="button" variant="primary" onClick={searchCountries}>
+        <Button
+          disabled={!countryName}
+          className="button"
+          variant="primary"
+          onClick={searchCountries}
+        >
           Search
         </Button>
       </div>
