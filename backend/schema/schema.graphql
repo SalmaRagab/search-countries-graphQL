@@ -1,0 +1,22 @@
+type Query {
+  login(userName: String): User
+  countries(countryName: String): [Country]
+}
+
+type User {
+  userName: String
+  token: String
+}
+
+type Country {
+  name: String
+  population: Float
+  currencies: [Currency]
+}
+
+type Currency {
+  code: String
+  name: String
+  symbol: String
+  exchangeRateWithSEK: Float
+}
