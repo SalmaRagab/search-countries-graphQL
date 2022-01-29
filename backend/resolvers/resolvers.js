@@ -1,11 +1,11 @@
+const CountryController = require("../controllers/CountryController");
 const UserController = require("../controllers/UserController");
-const CountriesService = require("../services/CountriesService");
 
-const countriesService = new CountriesService();
+const countryController = new CountryController();
 const userController = new UserController();
 
 const Query = {
   login: (root, args) => userController.login(args.userName),
-  countries: (root, args) => countriesService.getCountries(args.countryName),
+  countries: (root, args) => countryController.getCountries(args.countryName),
 };
 module.exports = { Query };

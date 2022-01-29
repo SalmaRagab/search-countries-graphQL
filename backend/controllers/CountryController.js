@@ -6,7 +6,7 @@ const searchService = new SearchService();
 const currencyService = new CurrencyService();
 const currencyExchangeRateMapper = new CurrencyExchangeRateMapper();
 
-module.exports = class CountriesService {
+module.exports = class CountryController {
   async getCountries(countryName) {
     const countries = await searchService.search(countryName);
     if (countries) {
