@@ -1,6 +1,6 @@
 const CurrencyExchangeRateMapper = require("../mappers/CurrencyExchangeRateMapper");
-const CurrencyService = require("./CurrencyService");
-const SearchService = require("./SearchService");
+const CurrencyService = require("../services/CurrencyService");
+const SearchService = require("../services/SearchService");
 
 const searchService = new SearchService();
 const currencyService = new CurrencyService();
