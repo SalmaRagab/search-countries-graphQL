@@ -1,31 +1,35 @@
 import { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { constructAPIURL } from "../../apiUrl";
+import { useApolloClient } from "@apollo/client";
+import { LOGIN } from "../../graphQL/queries";
 import "./Login.css";
 
 export function Login() {
+  const client = useApolloClient();
   let navigate = useNavigate();
 
   const [userName, setUserName] = useState("");
 
-  const login = (e) => {
+  const login = async (e) => {
     e.preventDefault();
-    fetch(constructAPIURL("/login"), {
-      method: "POST",
-      body: JSON.stringify({ userName }),
-    })
-      .then((res) => res.json())
-      .then((result) => {
-        localStorage.setItem(
-          "user",
-          JSON.stringify({
-            userName: userName,
-            token: result.token,
-          })
-        );
-        navigate("../countries", { replace: true });
+    try {
+      const { data } = await client.query({
+        query: LOGIN,
+        variables: { userName },
       });
+      console.log(data);
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          userName: data.login.userName,
+          token: data.login.token,
+        })
+      );
+      navigate("../countries", { replace: true });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (

@@ -14,3 +14,12 @@ export const GET_COUNTRIES = gql`
     }
   }
 `;
+
+export const LOGIN = gql`
+  query Login($userName: String!) {
+    login(userName: $userName) {
+      userName
+      token
+    }
+  }
+`;
