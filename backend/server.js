@@ -3,12 +3,17 @@ const resolvers = require("./resolvers/resolvers");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const express = require("express");
-const { ApolloServer, gql } = require("apollo-server-express");
-const { getBearerToken, verifyToken } = require("./middlewares/auth");
+const {
+  ApolloServer,
+  gql,
+  ForbiddenError,
+  AuthenticationError,
+} = require("apollo-server-express");
+const IsAuthenticatedDirective = require("./directives/IsAuthenticatedDirective");
 
 require("dotenv").config();
 
-var corsOptions = {
+const corsOptions = {
   origin: process.env.FRONTEND_HOST,
   optionsSuccessStatus: 200,
 };
@@ -18,13 +23,16 @@ async function startApolloServer() {
     fs.readFileSync("./schema/schema.graphql", { encoding: "utf8" })
   );
   const app = express();
+
   const server = new ApolloServer({
     typeDefs,
     resolvers,
-    context: ({ req }) => {
-      getBearerToken;
-      verifyToken;
+    schemaDirectives: {
+      isAuthenticated: IsAuthenticatedDirective,
     },
+    context: ({ req }) => ({
+      bearerHeader: req.headers["authorization"],
+    }),
   });
   app.use(bodyParser.json());
   app.use(cors(corsOptions));
