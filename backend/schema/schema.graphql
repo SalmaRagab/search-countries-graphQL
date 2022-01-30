@@ -1,6 +1,11 @@
+directive @isAuthenticated on FIELD_DEFINITION
+
 type Query {
-  login(userName: String): User
-  countries(countryName: String): [Country]
+  countries(countryName: String): [Country] @isAuthenticated
+}
+
+type Mutation {
+  signup(userName: String): User
 }
 
 type User {
