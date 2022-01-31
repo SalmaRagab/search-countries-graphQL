@@ -14,7 +14,7 @@ type Query {
 }
 
 type Mutation {
-  signup(userName: String): User @rateLimit(window: "1m", max: 30s)
+  signup(userName: String): User @rateLimit(window: "1m", max: 30)
 }
 
 type User {
