@@ -27,6 +27,12 @@ export default function CountriesListing() {
     setDisableAmountField(true);
   }
 
+  function isRateLimiterError(errorMessage) {
+    return errorMessage.includes(
+      "You are trying to access 'countries' too often"
+    );
+  }
+
   async function searchCountries() {
     if (countryName.trim() !== "") {
       console.log(
@@ -40,8 +46,10 @@ export default function CountriesListing() {
         setDisableAmountField(false);
         setCountries(data.countries);
       } catch (error) {
-        alert("You need to signup first!");
-        navigate("../signup", { replace: true });
+        alert(error.message);
+        if (!isRateLimiterError(error.message)) {
+          navigate("../signup", { replace: true });
+        }
       }
     }
   }
@@ -99,7 +107,7 @@ export default function CountriesListing() {
                           <br />
                           <span className="currencyExchangeRate">
                             1 {currency.code} ={" "}
-                            {currency.exchangeRateWithSEK.toFixed(3)} SEK
+                            {currency.exchangeRateWithSEK?.toFixed(3)} SEK
                           </span>
                           <br />
                           {amount > 0 && (
