@@ -40,8 +40,8 @@ export default function CountriesListing() {
         setDisableAmountField(false);
         setCountries(data.countries);
       } catch (error) {
-        alert("You need to login first!");
-        navigate("../login", { replace: true });
+        alert("You need to signup first!");
+        navigate("../signup", { replace: true });
       }
     }
   }

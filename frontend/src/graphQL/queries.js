@@ -15,9 +15,9 @@ export const GET_COUNTRIES = gql`
   }
 `;
 
-export const LOGIN = gql`
-  query Login($userName: String!) {
-    login(userName: $userName) {
+export const SIGNUP = gql`
+  mutation SignUp($userName: String!) {
+    signup(userName: $userName) {
       userName
       token
     }
