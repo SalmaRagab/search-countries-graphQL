@@ -11,8 +11,6 @@ require("dotenv").config();
 
 const rateLimitDirective = createRateLimitDirective({
   identifyContext: (ctx) => ctx.id,
-  max: process.env.MAX_NUMBER_OF_REQUESTS,
-  window: process.env.RATE_LIMITER_TIME,
 });
 
 const corsOptions = {
