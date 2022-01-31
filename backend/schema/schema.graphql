@@ -1,11 +1,18 @@
 directive @isAuthenticated on FIELD_DEFINITION
+directive @rateLimit(
+  max: Int
+  window: String
+  message: String
+  identityArgs: [String]
+  arrayLengthField: String
+) on FIELD_DEFINITION
 
 type Query {
-  countries(countryName: String): [Country] @isAuthenticated
+  countries(countryName: String): [Country] @isAuthenticated @rateLimit
 }
 
 type Mutation {
-  signup(userName: String): User
+  signup(userName: String): User @rateLimit
 }
 
 type User {

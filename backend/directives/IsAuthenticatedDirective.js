@@ -15,7 +15,7 @@ class IsAuthenticatedDirective extends SchemaDirectiveVisitor {
       const { bearerHeader } = args[2];
       if (!bearerHeader) {
         throw new ForbiddenError(
-          "Please first login, and then add your token in the request headers in order to perform the request!"
+          "Please first signup, and then add your token in the request headers in order to perform the request!"
         );
       }
       const bearer = bearerHeader.split(" ");

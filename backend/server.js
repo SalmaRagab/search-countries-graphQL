@@ -3,15 +3,17 @@ const resolvers = require("./resolvers/resolvers");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const express = require("express");
-const {
-  ApolloServer,
-  gql,
-  ForbiddenError,
-  AuthenticationError,
-} = require("apollo-server-express");
+const { ApolloServer, gql } = require("apollo-server-express");
+const { createRateLimitDirective } = require("graphql-rate-limit");
 const IsAuthenticatedDirective = require("./directives/IsAuthenticatedDirective");
 
 require("dotenv").config();
+
+const rateLimitDirective = createRateLimitDirective({
+  identifyContext: (ctx) => ctx.id,
+  max: process.env.MAX_NUMBER_OF_REQUESTS,
+  window: process.env.RATE_LIMITER_TIME,
+});
 
 const corsOptions = {
   origin: process.env.FRONTEND_HOST,
@@ -25,11 +27,12 @@ async function startApolloServer() {
   const app = express();
 
   const server = new ApolloServer({
-    typeDefs,
-    resolvers,
     schemaDirectives: {
       isAuthenticated: IsAuthenticatedDirective,
+      rateLimit: rateLimitDirective,
     },
+    typeDefs,
+    resolvers,
     context: ({ req }) => ({
       bearerHeader: req.headers["authorization"],
     }),
